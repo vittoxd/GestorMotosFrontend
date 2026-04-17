@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Motos - Panel</title>
+</head>
+<body>
+    <h1> Motos en Taller </h1>
+    <h2> Ingresar Nueva Moto</h2>
+    <form id = "formulario_moto">
+        <div>
+            <label>Marca:</label>
+            <input type="text" id="input-marca" required>
+        </div>
+        <br>
+        <button type="submit">Guardar Moto en el Taller </button>
+        
+        <div>
+        <label>Modelo:</label>
+        <input type="text" id="input-modelo" required>
+    </div>
+
+    <div>
+        <label>Año:</label>
+        <input type="number" id="input-anio" min="1900" max="2027" required>
+    </div>
+
+    <div>
+        <label>Kilometraje:</label>
+        <input type="number" id="input-kilometraje" min="0" required>
+    </div>
+    </form>
+        
+    <table border = "1">
+        <thead>
+            <tr>
+                <th> ID </th>
+                <th> Marca </th>
+                <th> Modelo </th>
+                <th> Año </th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo-tabla">
+            </tbody>
+    </table>
+    <script src="app.js"></script>
+   
+    
+</body>
+</html>
