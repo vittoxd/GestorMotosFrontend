@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de Motos - Panel</title>
+    <title>Gestor de Motos - Panel Profesional</title>
 </head>
 <body>
-    <h1> Motos en Taller </h1>
-    <h2> Ingresar Nueva Moto</h2>
-    <form id = "formulario_moto">
-        <div>
-            <label>Marca:</label>
-            <input type="text" id="input-marca" required>
-        </div>
+    <main>
+        <div id="notificacion" style="padding: 10px; margin-bottom: 10px; display: none; border-radius: 5px;"></div>
+
+        <section id="seccion-registro">
+            <form id="formulario_moto">
+                <fieldset>
+                    <legend><strong> Registro de Entrada - Taller 🛠️ </strong></legend>
+                    
+                    <div>
+                        <label>Marca:</label>
+                        <input type="hidden" id="input-id">
+                        <input type="text" id="input-marca" placeholder="Ej: Honda" required>
+                    </div>
+                    <div>
+                        <label>Modelo:</label>
+                        <input type="text" id="input-modelo" placeholder="Ej: CB500X" required>
+                    </div>
+                    <div>
+                        <label>Año:</label>
+                        <input type="number" id="input-anio" min="1900" max="2027" placeholder="2024" required>
+                    </div>
+                    <div>
+                        <label>Kilometraje:</label>
+                        <input type="number" id="input-kilometraje" min="0" placeholder="Km actuales" required>
+                    </div>
+
+                    <div style="margin-top: 10px;">
+                        <button type="submit">Registrar Moto en Sistema 🏍️💨</button>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
         <br>
-        <button type="submit">Guardar Moto en el Taller </button>
-        
-        <div>
-        <label>Modelo:</label>
-        <input type="text" id="input-modelo" required>
-    </div>
 
-    <div>
-        <label>Año:</label>
-        <input type="number" id="input-anio" min="1900" max="2027" required>
-    </div>
+        <section id="seccion-listado">
+            <h2> Inventario de Motos</h2>
+            
+            <div id="busqueda-container" style="margin-top: 15px; margin-bottom: 15px;">
+                <label>🔍 Filtrar:</label>
+                <input type="text" id="input-busqueda" placeholder="Buscar por marca o modelo...">
+            </div>
 
-    <div>
-        <label>Kilometraje:</label>
-        <input type="number" id="input-kilometraje" min="0" required>
-    </div>
-    </form>
-        
-    <table border = "1">
-        <thead>
-            <tr>
-                <th> ID </th>
-                <th> Marca </th>
-                <th> Modelo </th>
-                <th> Año </th>
-            </tr>
-        </thead>
-        <tbody id="cuerpo-tabla">
-            </tbody>
-    </table>
+            <table border="1" style="width: 100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Kilometraje</th>
+                        <th>Acciones</th> </tr>
+                </thead>
+                <tbody id="cuerpo-tabla"></tbody>
+            </table>
+        </section>
+    </main>
+
     <script src="app.js"></script>
-   
-    
 </body>
 </html>
