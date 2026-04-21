@@ -1,4 +1,4 @@
-const URL_API = "https://localhost:7258/api/Motos"
+const URL_API = "https://localhost:7258/api/Moto"
 
 async function cargarMotos() {
     try {
@@ -19,7 +19,7 @@ async function cargarMotos() {
             <td>${moto.año}</td>
             <td>${moto.kilometraje} km</td>
             <td>
-                <bottom onclick ="prepararEdicion(${moto.id})">✏️</button>
+                <botton onclick ="prepararEdicion(${moto.id})">✏️</button>
                 <button onclick="eliminarMoto(${moto.id})">🗑️</button>
             </td>
             </tr>
@@ -38,44 +38,60 @@ cargarMotos();
 const formulario = document.getElementById("formulario_moto");
 formulario.addEventListener("submit", async function(evento) {
     evento.preventDefault();
-    const marcaIngresada = document.getElementById("input-marca").value;
-    const modeloIngresada = document.getElementById("input-modelo").value;
-    const anioIngresada = parseInt(document.getElementById("input-anio").value);
-    const kilometrajeIngresado = parseInt(document.getElementById("input-kilometraje").value);
+   const idMoto = document.getElementById("input-id").value; 
+    
+    const marca = document.getElementById("input-marca").value;
+    const modelo = document.getElementById("input-modelo").value;
+    const anio = document.getElementById("input-anio").value;
+    const kilometraje = document.getElementById("input-kilometraje").value;
 
-    const nuevaMoto = {
-        marca: marcaIngresada,
-        modelo : modeloIngresada,
-        año : anioIngresada,
-        kilometraje : kilometrajeIngresado
+    let metodo = "POST";
+    let urlEnvio = URL_API;
+
+    // 2. LÓGICA DE EDICIÓN
+    if (idMoto) {
+        metodo = "PUT";
+        urlEnvio = `${URL_API}/${idMoto}`;
+    }
+
+    // 3. CREAMOS EL OBJETO (Usando las variables de arriba)
+    const moto = {
+        id: idMoto ? parseInt(idMoto) : 0,
+        marca: marca,
+        modelo: modelo,
+        año: parseInt(anio),
+        kilometraje: parseInt(kilometraje)
     };
 
-    console.log ("paquete listo para enviar:", nuevaMoto)
-
     try {
-        // 1. Enviamos el paquete
-        const respuesta = await fetch(URL_API, {
-            method: "POST", // Especificamos que es un envío
-            headers: {
-                "Content-Type": "application/json" // La "etiqueta" del paquete
-            },
-            body: JSON.stringify(nuevaMoto) // Convertimos el objeto a texto plano (JSON)
+        const response = await fetch(urlEnvio, {
+            method: metodo,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(moto)
         });
 
-        // 2. Revisamos si el servidor recibió la carta
-        if (respuesta.ok) {
-            mostrarMensaje("¡Moto guardada con éxito en el taller! 🏍️");
+        if (response.ok) {
+            const textoMensaje = idMoto ? "Moto actualizada con éxito" : "Moto registrada con éxito";
+            mostrarMensaje(textoMensaje);
             
-            // 3. LIMPIEZA DE INGENIERÍA:
-            formulario.reset(); // Borramos lo que el usuario escribió en las cajas
-            cargarMotos();      // ¡Mágico! Volvemos a llamar a la función de leer para que la tabla se actualice sola
+            formulario.reset();
+            document.getElementById("input-id").value = ""; 
+            
+            // CAMBIO AQUÍ: Tu función se llama cargarMotos, no obtenerMotos
+            cargarMotos(); 
+            
+            // Volvemos el botón a su estado original
+            const boton = document.querySelector("#formulario_moto button[type='submit']");
+            boton.innerText = "Registrar Moto en Sistema 🏍️✨";
         } else {
-            mostrarMensaje("Hubo un error en el servidor ❌", true);
+            mostrarMensaje("Error al procesar la solicitud", true);
         }
-
     } catch (error) {
-        console.error("Error de conexión:", error);
+        console.error("Error:", error);
+        mostrarMensaje("No se pudo conectar con el servidor", true);
     }
+
+  
 
 });
 function mostrarMensaje(texto, esError = false) {
@@ -144,3 +160,4 @@ async function prepararEdicion(id) {
         console.error("Error al cargar datos para edición:", error);
     }
 }
+
